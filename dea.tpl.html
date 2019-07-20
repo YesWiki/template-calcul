@@ -1,0 +1,49 @@
+<?php
+if(count($fiches)>0) : ?>
+    <?php echo $info_res;
+    $totaldeacol = 0;
+    $totaldeareu = 0;
+    $totaldearecy = 0;
+    $totaldeanonval = 0;
+    $totaldestotaux = 0;
+    $nbdefiches = count($fiches);
+    echo '<em>Nombre de fiches renseignées : '.$nbdefiches.'.</em><br><br>';
+    ?>
+    <?php
+    foreach($fiches as $fiche):
+
+    // test de l'existance de la valeur puis ajout au total
+    if (isset($fiche["bf_deamencol"]) and !empty($fiche["bf_deamencol"])) {
+        $val = floatval(str_replace(',', '.', $fiche["bf_deamencol"]));
+        $totaldeacol = $totaldeacol + $val; // total collecté
+        $totaldestotaux = $totaldestotaux + $val; // total des totaux
+    }
+    if (isset($fiche["bf_deamenreu"]) and !empty($fiche["bf_deamenreu"])) {
+        $val = floatval(str_replace(',', '.', $fiche["bf_deamenreu"]));
+        $totaldeareu = $totaldeareu + $val; // total réutilisé
+        $totaldestotaux = $totaldestotaux + $val;// total des totaux
+    }
+    if (isset($fiche["bf_deamenrecy"]) and !empty($fiche["bf_deamenrecy"])) {
+        $val = floatval(str_replace(',', '.', $fiche["bf_deamenrecy"]));
+        $totaldearecy = $totaldearecy + $val;// total recyclé
+        $totaldestotaux = $totaldestotaux + $val;// total des totaux
+    }
+    if (isset($fiche["bf_deamennonval"]) and !empty($fiche["bf_deamennonval"])) {
+        $val = floatval(str_replace(',', '.', $fiche["bf_deamennonval"]));
+        $totaldeanonval = $totaldeanonval + $val;// total non valorisé
+        $totaldestotaux = $totaldestotaux + $val;// total des totaux
+    }
+
+    
+    ?>
+        <?php
+    endforeach; ?>
+    <?php 
+      echo 'total collecté : '.round($totaldeacol, 2).' - Moyenne : '.round(($totaldeacol / $nbdefiches), 2).'<br>'; 
+      echo 'total réutilisé : '.$totaldeareu.' - Moyenne : '.round(($totaldeareu / $nbdefiches), 2).'<br>'; 
+      echo 'total recyclé : '.$totaldearecy.' - Moyenne : '.round(($totaldearecy / $nbdefiches), 2).'<br>'; 
+      echo 'total non valorisé : '.$totaldeanonval.' - Moyenne : '.round(($totaldeanonval / $nbdefiches), 2).'<br>'; 
+      echo '<b>total des totaux : '.$totaldestotaux.' - Moyenne : '.round(($totaldestotaux / $nbdefiches), 2).'</b><br>'; 
+    ?>
+    <?php
+endif;
